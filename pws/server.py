@@ -1,5 +1,6 @@
 import socket
 from pws.config import ServerConfig, ServerConfigConsts
+from pws.utils import templates_utils
 
 
 class Server:
@@ -56,6 +57,7 @@ class Server:
                 self.print_debug(request)
 
                 connection.send("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
+                connection.send(templates_utils.load_template_from_file("index.html"))
 
             except Exception as e:
                 print(str(e))
