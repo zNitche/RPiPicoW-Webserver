@@ -60,8 +60,19 @@ class Controller:
 
             attempts += 1
 
-        self.print_debug(f"Connected to '{ssid}' network...") if self.wlan.isconnected() else \
+        if self.wlan.isconnected():
+            self.print_debug(f"Connected to '{ssid}' network...")
+
+            self.blink_onboard_led(Config.WIFI_CONNECTED_BLINKS_COUNT, 1)
+
+        else:
             self.print_debug("Failed to connect...")
+
+    def disconnect_from_network(self):
+        self.print_debug("Disconnecting from network...")
+
+        if self.wlan.isconnected():
+            self.wlan.disconnect()
 
     def get_wlan_config(self):
         config = None

@@ -5,6 +5,7 @@ from config import Config
 def main():
     controller = Controller()
 
+    controller.disconnect_from_network()
     controller.connect_to_network(Config.NETWORK_SSID, Config.NETWORK_PASSWORD)
 
     print(controller.wlan.isconnected())
