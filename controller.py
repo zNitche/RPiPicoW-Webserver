@@ -50,7 +50,7 @@ class Controller:
 
         self.print_debug("Connecting to WIFI network...")
 
-        while not self.wlan.isconnected() and attempts < Config.MAX_WIFI_RECONNECT_ATTEMPTS:
+        while (not self.wlan.isconnected()) and attempts < Config.MAX_WIFI_RECONNECT_ATTEMPTS:
             self.print_debug("Trying to establish WiFi connection...")
             self.blink_onboard_led(Config.WIFI_CONNECTING_BLINKS_COUNT, 2)
 
@@ -62,6 +62,7 @@ class Controller:
 
         if self.wlan.isconnected():
             self.print_debug(f"Connected to '{ssid}' network...")
+            self.print_debug(f"IP address: {self.wlan.ifconfig()[0]}...")
 
             self.blink_onboard_led(Config.WIFI_CONNECTED_BLINKS_COUNT, 1)
 
