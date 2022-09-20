@@ -54,10 +54,18 @@ class Server:
                 self.print_debug(f"client connected from: {client_address}")
                 request = connection.recv(1024)
 
-                self.print_debug(request)
+                # self.print_debug(request)
+
+                test_context = {
+                    "parse_test": "Test",
+                    "parse_test_2": "Test2"
+                }
+
+                template = templates_utils.load_template_from_file("index.html")
+                template = templates_utils.parse_template_with_context(template, test_context)
 
                 connection.send("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
-                connection.send(templates_utils.load_template_from_file("index.html"))
+                connection.send(template)
 
             except Exception as e:
                 print(str(e))
