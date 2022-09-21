@@ -1,6 +1,6 @@
 import socket
 from pws.config import ServerConfig, ServerConfigConsts
-from pws.utils import templates_utils
+from pws.core.template_parser import TemplateParser
 
 
 class Server:
@@ -12,6 +12,8 @@ class Server:
 
         if load_default_config:
             self.load_config_from_object(ServerConfig)
+
+        self.template_parser = TemplateParser()
 
     def load_config_from_object(self, config_object):
         if isinstance(config_object, dict):
@@ -56,13 +58,12 @@ class Server:
 
                 # self.print_debug(request)
 
-                test_context = {
+                context = {
                     "parse_test": "Test",
                     "parse_test_2": "Test2"
                 }
 
-                template = templates_utils.load_template_from_file("index.html")
-                template = templates_utils.parse_template_with_context(template, test_context)
+                template = self.template_parser.perform_parsing("index.html", context)
 
                 connection.send("HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n")
                 connection.send(template)
