@@ -75,6 +75,8 @@ class Server:
                 connection.send(self.template_parser.perform_parsing(response_content, response_context))
 
             except Exception as e:
+                connection.send("HTTP/1.0 500 Internal Server Error\r\nContent-type: text/html\r\n\r\n")
+
                 self.print_debug(str(e))
 
             finally:
