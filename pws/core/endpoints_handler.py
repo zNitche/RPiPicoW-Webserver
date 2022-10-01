@@ -27,7 +27,7 @@ class EndpointsHandler:
             )
 
             response_content = endpoint.template
-            response_context = endpoint.get_context()
+            response_context = endpoint.process()
 
         else:
             response_header, response_content, response_context = self.handle_error(404)
@@ -49,7 +49,7 @@ class EndpointsHandler:
             )
 
             response_content = error_endpoint.template
-            response_context = error_endpoint.get_context()
+            response_context = error_endpoint.process()
 
         return response_header, response_content, response_context
 

@@ -10,7 +10,7 @@ class HomeEndpoint(EndpointBase):
         self.methods = [EndpointsConsts.GET_REQUEST]
         self.address = "/"
 
-    def get_context(self):
+    def process(self):
         context = {
             "parse_test": "Hello 1",
             "parse_test_2": "Hello 2"

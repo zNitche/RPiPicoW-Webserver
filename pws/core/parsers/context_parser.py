@@ -28,6 +28,6 @@ class ContextParser(ParserBase):
         parsed_template = template
 
         for context_key in parsed_context:
-            parsed_template = parsed_template.replace(context_key, parsed_context[context_key])
+            parsed_template = parsed_template.replace(context_key, str(parsed_context[context_key]))
 
         return parsed_template

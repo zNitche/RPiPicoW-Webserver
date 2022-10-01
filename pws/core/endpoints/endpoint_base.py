@@ -4,5 +4,5 @@ class EndpointBase:
         self.template = ""
         self.address = ""
 
-    def get_context(self):
+    def process(self):
         return {}
