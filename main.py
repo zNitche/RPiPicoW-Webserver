@@ -17,8 +17,7 @@ def main():
     controller = Controller()
     init_board(controller)
 
-    web_server = Server()
-    init_web_server(web_server)
+    init_web_server(Server())
 
 
 if __name__ == "__main__":

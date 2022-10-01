@@ -18,9 +18,13 @@ class TemplateParser:
         return template
 
     def perform_parsing(self, template, context):
-        template = self.load_template_from_file(template)
+        if template:
+            template = self.load_template_from_file(template)
 
-        for parser in self.parsers:
-            template = parser.perform_parsing(context, template)
+            for parser in self.parsers:
+                template = parser.perform_parsing(context, template)
 
-        return template
+            return template
+
+        else:
+            return ""
