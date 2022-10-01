@@ -57,6 +57,9 @@ class Server:
     def mainloop(self):
         while True:
             connection = None
+            client_address = None
+
+            response_header, response_content, response_context = self.endpoints_handler.handle_error(500)
 
             try:
                 connection, client_address = self.socket.accept()
@@ -71,14 +74,17 @@ class Server:
 
                 response_header, response_content, response_context = self.endpoints_handler.handle_request(request)
 
-                connection.send(response_header)
-                connection.send(self.template_parser.perform_parsing(response_content, response_context))
-
             except Exception as e:
-                connection.send("HTTP/1.0 500 Internal Server Error\r\nContent-type: text/html\r\n\r\n")
-
                 self.print_debug(str(e))
 
             finally:
+                if connection and client_address:
+                    connection.send(response_header)
+
+                    if response_content and response_context:
+                        parsed_template = self.template_parser.perform_parsing(response_content, response_context)
+
+                        connection.send(parsed_template)
+
                 if connection:
                     connection.close()
