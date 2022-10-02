@@ -1,5 +1,3 @@
-from pws.consts import HTTPConsts
-
 from pws.core.endpoints.home_endpoint import HomeEndpoint
 from pws.core.endpoints.errors.error_404 import Error404
 from pws.core.endpoints.errors.error_500 import Error500
@@ -18,38 +16,21 @@ class EndpointsHandler:
 
     def handle_request(self, request):
         endpoint = self.get_endpoint_for_request(request)
+        response = self.handle_error(404)
 
         if endpoint:
-            response_context, response_content, response_code = endpoint.process()
+            response = endpoint.process()
 
-            response_header = HTTPConsts.Response.format(
-                protocol=HTTPConsts.HTTPProtocol,
-                response_code=response_code,
-                content_type=HTTPConsts.HTMLContentType
-            )
-
-        else:
-            response_header, response_content, response_context = self.handle_error(404)
-
-        return response_header, response_content, response_context
+        return response
 
     def handle_error(self, error_code):
         error_endpoint = self.get_error_by_code(error_code)
-
-        response_header = None
-        response_content = None
-        response_context = {}
+        response = self.get_error_by_code(404).process()
 
         if error_endpoint:
-            response_context, response_content, response_code = error_endpoint.process()
+            response = error_endpoint.process()
 
-            response_header = HTTPConsts.Response.format(
-                protocol=HTTPConsts.HTTPProtocol,
-                response_code=response_code,
-                content_type=HTTPConsts.HTMLContentType
-            )
-
-        return response_header, response_content, response_context
+        return response
 
     def get_error_by_code(self, error_code):
         error_endp = None

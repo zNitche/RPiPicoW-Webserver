@@ -1,4 +1,5 @@
 from pws.core.endpoints.endpoint_base import EndpointBase
+from pws.core.objects.response import Response
 
 
 class ErrorBase(EndpointBase):
@@ -16,4 +17,4 @@ class ErrorBase(EndpointBase):
             "error_code": self.status_code
         }
 
-        return context, template, self.response_code
+        return Response(template, self.response_code, context)

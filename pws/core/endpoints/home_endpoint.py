@@ -1,5 +1,6 @@
 from pws.core.endpoints.endpoint_base import EndpointBase
 from pws.consts import EndpointsConsts, HTTPConsts
+from pws.core.objects.response import Response
 
 
 class HomeEndpoint(EndpointBase):
@@ -19,4 +20,4 @@ class HomeEndpoint(EndpointBase):
             "parse_test_2": "Hello 2"
         }
 
-        return context, template, response_code
+        return Response(template, response_code, context)

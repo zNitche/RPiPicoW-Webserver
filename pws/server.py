@@ -59,7 +59,7 @@ class Server:
             connection = None
             client_address = None
 
-            response_header, response_content, response_context = self.endpoints_handler.handle_error(500)
+            response = self.endpoints_handler.handle_error(500)
 
             try:
                 connection, client_address = self.socket.accept()
@@ -72,17 +72,18 @@ class Server:
                 request = Request(request)
                 self.print_debug(request)
 
-                response_header, response_content, response_context = self.endpoints_handler.handle_request(request)
+                response = self.endpoints_handler.handle_request(request)
 
             except Exception as e:
                 self.print_debug(str(e))
 
             finally:
                 if connection and client_address:
-                    connection.send(response_header)
+                    connection.send(response.create_response_header())
 
-                    if response_content and response_context is not None:
-                        parsed_template = self.template_parser.perform_parsing(response_content, response_context)
+                    if response.content and response.context is not None:
+                        parsed_template = self.template_parser.perform_parsing(response.content,
+                                                                               response.context)
 
                         connection.send(parsed_template)
 
