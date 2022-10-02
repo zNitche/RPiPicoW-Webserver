@@ -3,8 +3,11 @@ class ParserBase:
         self.begin_pattern = None
         self.end_pattern = None
 
-    def check_pattern(self, context_item):
+    def check_pattern(self, word):
         return False
+
+    def get_pattern(self, word):
+        return word
 
     def perform_parsing(self, context, template):
         pass
