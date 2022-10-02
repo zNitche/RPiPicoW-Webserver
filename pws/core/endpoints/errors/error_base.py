@@ -11,6 +11,9 @@ class ErrorBase(EndpointBase):
         self.template = "error.html"
 
     def process(self):
-        return {
+        template = self.template
+        context = {
             "error_code": self.status_code
         }
+
+        return context, template, self.response_code

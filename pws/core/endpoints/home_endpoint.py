@@ -1,5 +1,5 @@
 from pws.core.endpoints.endpoint_base import EndpointBase
-from pws.consts import EndpointsConsts
+from pws.consts import EndpointsConsts, HTTPConsts
 
 
 class HomeEndpoint(EndpointBase):
@@ -11,9 +11,12 @@ class HomeEndpoint(EndpointBase):
         self.address = "/"
 
     def process(self):
+        template = self.template
+        response_code = HTTPConsts.OK_RESPONSE
+
         context = {
             "parse_test": "Hello 1",
             "parse_test_2": "Hello 2"
         }
 
-        return context
+        return context, template, response_code

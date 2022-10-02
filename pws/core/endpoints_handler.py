@@ -20,14 +20,13 @@ class EndpointsHandler:
         endpoint = self.get_endpoint_for_request(request)
 
         if endpoint:
+            response_context, response_content, response_code = endpoint.process()
+
             response_header = HTTPConsts.Response.format(
                 protocol=HTTPConsts.HTTPProtocol,
-                response_code="200 OK",
+                response_code=response_code,
                 content_type=HTTPConsts.HTMLContentType
             )
-
-            response_content = endpoint.template
-            response_context = endpoint.process()
 
         else:
             response_header, response_content, response_context = self.handle_error(404)
@@ -42,14 +41,13 @@ class EndpointsHandler:
         response_context = {}
 
         if error_endpoint:
+            response_context, response_content, response_code = error_endpoint.process()
+
             response_header = HTTPConsts.Response.format(
                 protocol=HTTPConsts.HTTPProtocol,
-                response_code=error_endpoint.response_code,
+                response_code=response_code,
                 content_type=HTTPConsts.HTMLContentType
             )
-
-            response_content = error_endpoint.template
-            response_context = error_endpoint.process()
 
         return response_header, response_content, response_context
 

@@ -8,3 +8,5 @@ class HTTPConsts:
 
     HTTPProtocol = "HTTP/1.0"
     HTMLContentType = "text/html"
+
+    OK_RESPONSE = "200 OK"

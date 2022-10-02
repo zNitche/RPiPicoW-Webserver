@@ -81,7 +81,7 @@ class Server:
                 if connection and client_address:
                     connection.send(response_header)
 
-                    if response_content and response_context:
+                    if response_content and response_context is not None:
                         parsed_template = self.template_parser.perform_parsing(response_content, response_context)
 
                         connection.send(parsed_template)
