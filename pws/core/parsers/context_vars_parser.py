@@ -8,16 +8,7 @@ class ContextVarsParser(ParserBase):
         self.begin_pattern = "{{"
         self.end_pattern = "}}"
 
-    def check_pattern(self, word):
-        word = word.replace(" ", "")
-
-        status = True if word.startswith(self.begin_pattern) and \
-                         word.endswith(self.end_pattern) else False
-
-        return status
-
     def get_pattern(self, word):
-        word = word.replace(" ", "")
         pattern_word = self.begin_pattern + word + self.end_pattern
 
         return pattern_word

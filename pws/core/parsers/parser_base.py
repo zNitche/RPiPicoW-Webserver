@@ -3,9 +3,6 @@ class ParserBase:
         self.begin_pattern = None
         self.end_pattern = None
 
-    def check_pattern(self, word):
-        return False
-
     def get_pattern(self, word):
         return word
 

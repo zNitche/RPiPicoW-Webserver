@@ -1,12 +1,14 @@
 from pws.config import ServerConfig
 
 from pws.core.parsers.context_vars_parser import ContextVarsParser
+from pws.core.parsers.context_for_parser import ContextForParser
 
 
 class TemplateParser:
     def __init__(self):
         self.parsers = [
-            ContextVarsParser()
+            ContextVarsParser(),
+            ContextForParser()
         ]
 
     def load_template_from_file(self, template_path, template_root_path=ServerConfig.TEMPLATES_ROOT_PATH):
