@@ -21,6 +21,9 @@ class EndpointsHandler:
         if endpoint:
             response = endpoint.process()
 
+            if self.get_error_by_code(response.response_code):
+                response = self.handle_error(response.response_code)
+
         return response
 
     def handle_error(self, error_code):
