@@ -9,32 +9,49 @@ class ContextForParser(ParserBase):
         self.begin_pattern = "{%for%}"
         self.end_pattern = "{%endfor%}"
 
+    def get_sequence_uuid(self):
+        sequence_uuid = "".join([random.choice([str(digit) for digit in range(10)]) for _ in range(10)])
+
+        return sequence_uuid
+
+    def parse_uuids(self, parse_struct, splitted_template):
+        parsed_template = " ".join(splitted_template)
+
+        for uuid, value in parse_struct.items():
+            parsed_template = parsed_template.replace(uuid, " ".join(value * 2))
+
+        return parsed_template
+
     def perform_parsing(self, context, template):
-        tmp_struct = []
-        parsed_template = template
-
-        tmp_uuid = "".join(random.choice([str(digit for digit in range(10))]) for _ in range(10))
-
         sequence_started = False
+        parsed_template = template[:]
 
-        for word in template.split():
-            stripped_word = word.strip()
+        splitted_template = parsed_template.split()
+        splitted_template_cp = splitted_template.copy()
 
-            if stripped_word == self.begin_pattern:
-                parsed_template = parsed_template.replace(word, tmp_uuid)
+        parse_struct = {}
 
+        for word_id, word in enumerate(splitted_template):
+            if word == self.begin_pattern:
                 sequence_started = True
 
-            elif stripped_word == self.end_pattern:
+                uuid = self.get_sequence_uuid()
+
+                if uuid not in parse_struct.keys():
+                    parse_struct[uuid] = []
+
+                splitted_template_cp[word_id] = uuid
+
+            elif word == self.end_pattern:
                 sequence_started = False
-
-                parsed_template = parsed_template.replace(word, "")
-                parsed_template = parsed_template.replace(tmp_uuid, " ".join(tmp_struct * 2))
-
-                tmp_struct = []
+                splitted_template_cp[word_id] = ""
 
             else:
                 if sequence_started:
-                    tmp_struct.append(word)
+                    splitted_template_cp[word_id] = ""
+
+                    parse_struct[uuid].append(word)
+
+        parsed_template = self.parse_uuids(parse_struct, splitted_template_cp)
 
         return parsed_template

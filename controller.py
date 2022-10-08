@@ -44,21 +44,11 @@ class Controller:
             self.wlan.active(True)
 
     def connect_to_network(self, ssid, password):
-        attempts = 0
-
         self.activate_wlan_if_disabled()
 
         self.print_debug("Connecting to WIFI network...")
 
-        while (not self.wlan.isconnected()) and attempts < Config.MAX_WIFI_RECONNECT_ATTEMPTS:
-            self.print_debug("Trying to establish WiFi connection...")
-            self.blink_onboard_led(Config.WIFI_CONNECTING_BLINKS_COUNT, 2)
-
-            self.wlan.connect(ssid, password)
-
-            time.sleep(1)
-
-            attempts += 1
+        self.network_connection_loop(self, ssid, password)
 
         if self.wlan.isconnected():
             self.print_debug(f"Connected to '{ssid}' network...")
@@ -68,6 +58,18 @@ class Controller:
 
         else:
             self.print_debug("Failed to connect...")
+
+    def network_connection_loop(self, ssid, password):
+        attempts = 0
+
+        while (not self.wlan.isconnected()) and attempts < Config.MAX_WIFI_RECONNECT_ATTEMPTS:
+            self.print_debug("Trying to establish WiFi connection...")
+            self.blink_onboard_led(Config.WIFI_CONNECTING_BLINKS_COUNT, 2)
+
+            time.sleep(1)
+            self.wlan.connect(ssid, password)
+
+            attempts += 1
 
     def disconnect_from_network(self):
         self.print_debug("Disconnecting from network...")

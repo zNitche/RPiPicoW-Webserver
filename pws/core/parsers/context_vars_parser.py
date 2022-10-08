@@ -23,7 +23,7 @@ class ContextVarsParser(ParserBase):
 
     def perform_parsing(self, context, template):
         parsed_context = self.get_parsed_context(context)
-        parsed_template = template
+        parsed_template = template[:]
 
         for context_key in parsed_context:
             parsed_template = parsed_template.replace(context_key, str(parsed_context[context_key]))

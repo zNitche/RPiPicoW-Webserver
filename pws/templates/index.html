@@ -5,21 +5,39 @@
     <title>Hello Pico Web Server</title>
 </head>
 <body>
-    <p>
-        Hello World {{parse_test}}
-    </p>
-    <p>
-        {{parse_test_2}}
-    </p>
-    <p>
-        {{parse_test}}|Test
-    </p>
-    <p>
-        {%for%}
-            <p>
-                Test Test
-            </p>
-        {%endfor%}
-    </p>
+    <div>
+        <p>
+            Variables Parsing Test
+        </p>
+
+        <p>
+            Hello World {{parse_test}}
+        </p>
+        <p>
+            {{parse_test}}|Test
+        </p>
+    </div>
+    <div>
+        <p>
+            For loops Test
+        </p>
+        <p>
+            {%for%}
+                <p>
+                    For Test 1
+                </p>
+            {%endfor%}
+        </p>
+        <p>
+            Fors spacer
+        </p>
+        <p>
+            {%for%}
+                <p>
+                    For Test 2
+                </p>
+            {%endfor%}
+        </p>
+    </div>
 </body>
 </html>
